@@ -1,0 +1,5 @@
+{
+	"files.associations": {
+		"interrupt_service_routines.h": "c"
+	}
+}

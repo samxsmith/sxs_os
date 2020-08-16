@@ -1,10 +1,11 @@
-[extern isr_handler]  ; defined in kernel/interrupt_service_routines
+[extern isr_handler]  ; defined in kernel/interrupt_service_routines and called in isr_common_stub below
+[extern irq_handler]  ; defined in kernel/interrupt_service_routines and called in irq_common_stub below
 
 ; called by all
 isr_common_stub:
 	pusha  ; pushes the edi, esi, ebp, esp, ebx, edx, ecx, eax
 		   ; registers which we added to the `Register_Table` struct
-		   ; in interrupt_service_routine.h
+		   ; in interrupt_service_routine.h onto stack
 
 	mov ax, ds  ; load current data segment descriptor
 				; into lower 16 bits of eax
@@ -30,13 +31,46 @@ isr_common_stub:
 	popa
 	add esp, 8   ; removes error code and isr number from stack
 
-	sti          ; set interrupt flag
+	sti          ; set interrupt flag, allowing new interrupts to be sent
 	iret         ; interrupt return
 				 ; pops 5 things at once:
 				 ; code segment, instruction pointer, EFLAGS, stack segment, and stack pointer
 
+; common irq stub -- identical to ISR stub above
+; except for the 'call' & 'pop ebx'
+irq_common_stub:
+    pusha
+    mov ax, ds
+    push eax
+    mov ax, 0x10
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
 
-; when the interrupt runs we don't get info about which interrupt is being triggered
+    ; different to ISR stub
+    ; calls the IRQ handler
+    ; void irq_handler(Register_Table rt)
+    ; in interrupt_service_routines.c
+    call irq_handler
+
+    ; different to ISR stub
+    pop ebx ; instead of eax -- not sure why
+
+    mov ds, bx
+    mov es, bx
+    mov fs, bx
+    mov gs, bx
+    popa
+    add esp, 8
+    sti
+    iret
+
+        
+    
+
+
+; when the interrupt(isr/irq) runs we don't get info about which interrupt is being triggered
 ; so we have to have a different handler for each interrupt
 
 ; make global isrs
@@ -73,8 +107,27 @@ global isr29
 global isr30
 global isr31
 
+; IRQs
+global irq0
+global irq1
+global irq2
+global irq3
+global irq4
+global irq5
+global irq6
+global irq7
+global irq8
+global irq9
+global irq10
+global irq11
+global irq12
+global irq13
+global irq14
+global irq15
 
-; cli == clear interrupt flag
+
+; cli == clear interrupt flag -- prevent any interrupts from being sent
+; we then put the flag back with `sti` in the stubs
 ; some interrupts have an error code pushed to the stack
 ; to keep the stack even we push a dummy code in its place
 ; when there isn't one already
@@ -297,3 +350,103 @@ isr31:
     push byte 0
     push byte 31
     jmp isr_common_stub
+
+; 
+; IRQ handlers
+;
+
+irq0:
+	cli
+	push byte 0
+	push byte 32
+	jmp irq_common_stub
+
+irq1:
+	cli
+	push byte 1
+	push byte 33
+	jmp irq_common_stub
+
+irq2:
+	cli
+	push byte 2
+	push byte 34
+	jmp irq_common_stub
+
+irq3:
+	cli
+	push byte 3
+	push byte 35
+	jmp irq_common_stub
+
+irq4:
+	cli
+	push byte 4
+	push byte 36
+	jmp irq_common_stub
+
+irq5:
+	cli
+	push byte 5
+	push byte 37
+	jmp irq_common_stub
+
+irq6:
+	cli
+	push byte 6
+	push byte 38
+	jmp irq_common_stub
+
+irq7:
+	cli
+	push byte 7
+	push byte 39
+	jmp irq_common_stub
+
+irq8:
+	cli
+	push byte 8
+	push byte 40
+	jmp irq_common_stub
+
+irq9:
+	cli
+	push byte 9
+	push byte 41
+	jmp irq_common_stub
+
+irq10:
+	cli
+	push byte 10
+	push byte 42
+	jmp irq_common_stub
+
+irq11:
+	cli
+	push byte 11
+	push byte 43
+	jmp irq_common_stub
+
+irq12:
+	cli
+	push byte 12
+	push byte 44
+	jmp irq_common_stub
+
+irq13:
+	cli
+	push byte 13
+	push byte 45
+	jmp irq_common_stub
+
+irq14:
+	cli
+	push byte 14
+	push byte 46
+	jmp irq_common_stub
+
+irq15:
+	cli
+	push byte 15
+	push byte 47
+	jmp irq_common_stub

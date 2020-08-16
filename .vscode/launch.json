@@ -4,9 +4,11 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+    // REQUIRES THIS EXTENSION:
+    // https://github.com/WebFreak001/code-debug
+
+    // this requires first running: make run-debug
     {
-      // REQUIRES THIS EXTENSION:
-      // https://github.com/WebFreak001/code-debug
       "name": "QEMU attach",
       "type": "gdb",
       "request": "attach",

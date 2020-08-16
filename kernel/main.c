@@ -1,5 +1,7 @@
 #include "../drivers/screen.h"
 #include "interrupt_service_routines.h"
+#include "timer.h"
+#include "../drivers/keyboard.h"
 
 void something_else() {
 	char *video_memory = (char *)0xb8000;
@@ -30,6 +32,10 @@ void main() {
 	// int res = 5 / 0;
 
 	isr_install();
-	__asm__ __volatile__("int $2");
-	__asm__ __volatile__("int $3");
+	// __asm__ __volatile__("int $2");
+	// __asm__ __volatile__("int $4");
+
+	asm __volatile__("sti"); // set the interrupt flag, telling the CPU to check for interrupts
+	init_timer(1);
+	init_keyboard();
 }

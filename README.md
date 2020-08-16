@@ -1,20 +1,42 @@
-# 54m-OS
+# SxS OS
+A dive-in-at-the-deep-end education in the nitty-gritty workings of an Operating System.
+
+> "What I cannot create I do not understand"
+
+All code is heavily commented to provide an educational commentary of exactly what is going on. Please dive in.
+
+### Features
+- A custom-written but fairly standard boot loader
+- A screen driver for outputting to the screen
+- A port driver for communicating with various I/O chips: PIT, PIC, the screen etc
+- Excpetion handlers
+- Interrupt handlers, supporting a timer & keyboard input
 
 ### Requirements
 
 Requires qemu to be installed:
 
-On mac:
+On Mac:
 ```
 brew install qemu
 ```
 
-### To build
+You'll also need these cross compilers so that you can compile for your target.
+On Mac you can get them pre-built.
+```sh
+brew tap nativeos/i386-elf-toolchain
+brew install i386-elf-binutils i386-elf-gcc i386-elf-gdb
+```
 
-./tools/scripts/compile.sh
+### Build & Run
+- `make run` to run the Operating System in QEMU
 
-### To run
+- `make run-debug` to run with debugger listener.
+Execution will halt until the debugger is attached.
+Run the `QEMU attach` debug configuration included in the `.vscode/launch.json`.
+The process execution will begin and you now have debug capability from your editor.
 
-./tools/scripts/qemu_run.sh
+### Misc
+In the tools folder you'll find some useful resources for further explanation of all of this.
 
-This will launch a qemu window on your desktop (possibly silently so you'll have to go find it). Qemu will run a x86 emulator launched with BIOS.
+There are also some scripts for disassembly which are useful too.

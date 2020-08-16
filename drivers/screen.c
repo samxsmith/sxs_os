@@ -1,5 +1,5 @@
 #include "screen.h"
-#include "../kernel/ports.h"
+#include "ports.h"
 #include "../kernel/util.h"
 
 int print_char_at(char character, int row, int col, char attributes);
