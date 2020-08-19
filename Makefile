@@ -5,14 +5,17 @@
 # $@ means target file
 # $^ means all dependencies
 
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h)
-C_FLAGS = -g
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c lib/libc/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h lib/libc/*.h)
+CFLAGS = -g -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs \
+		 -Wall -Wextra -Werror
+
 
 # list of object file targets
 OBJ_DIR = objs
-TMP_OBJS = $(patsubst kernel/%.c,$(OBJ_DIR)/%.o,$(C_SOURCES))
-OBJS = $(patsubst drivers/%.c,$(OBJ_DIR)/%.o,$(TMP_OBJS))
+TMP_OBJS1 = $(patsubst kernel/%.c,$(OBJ_DIR)/%.o,$(C_SOURCES))
+TMP_OBJS2 = $(patsubst drivers/%.c,$(OBJ_DIR)/%.o,$(TMP_OBJS1))
+OBJS = $(patsubst lib/libc/%.c,$(OBJ_DIR)/%.o,$(TMP_OBJS2))
 
 CC = /usr/local/bin/i386-elf-gcc
 LD = /usr/local/bin/i386-elf-ld
@@ -37,6 +40,9 @@ bin/kernel.bin: objs/entry.o ${OBJS} objs/interrupt.o
 
 # C files depend on all headers for ease
 objs/%.o: */%.c ${HEADERS}
+	${CC} ${C_FLAGS} -ffreestanding -c $< -o $@
+# nested c too -- couldn't find a way to combine these
+objs/%.o: */**/%.c ${HEADERS}
 	${CC} ${C_FLAGS} -ffreestanding -c $< -o $@
 
 objs/%.o: kernel/%.asm

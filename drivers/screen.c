@@ -1,6 +1,6 @@
 #include "screen.h"
-#include "ports.h"
-#include "../kernel/util.h"
+#include "../kernel/ports.h"
+#include "../lib/libc/mem.h"
 
 int print_char_at(char character, int row, int col, char attributes);
 int get_position_offset(int row, int col);

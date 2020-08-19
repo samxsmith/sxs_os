@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"interrupt_service_routines.h": "c"
+		"interrupt_service_routines.h": "c",
+		"ports.h": "c"
 	}
 }

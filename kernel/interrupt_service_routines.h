@@ -81,6 +81,7 @@ typedef struct {
 
 void isr_install();
 void isr_handler(Register_Table r);
+void irq_install();
 
 // define port numbers for PIC
 #define PRIMARY_PIC_COMMAND_PORT 0x20

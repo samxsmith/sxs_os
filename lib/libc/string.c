@@ -1,10 +1,4 @@
-#include "util.h"
-
-void memory_copy(char *source, char *destination, int number_of_bytes) {
-	for (int i = 0; i < number_of_bytes; i++) {
-		*(destination + i) = *(source + i);
-	}
-}
+#include "string.h"
 
 // itoa - int to string, including sign and NULL stop
 void itoa(int num, char strng[]) {
@@ -44,4 +38,12 @@ void reverse_string(char strng[], int length) {
 		strng[fromRight - length] = tmp;
 		length--;
 	}
+}
+
+int strlen(char *str) {
+	int i = 0;
+	while (str[i] != 0 && str[i] != '\0') {
+		i++;
+	}
+	return i;
 }

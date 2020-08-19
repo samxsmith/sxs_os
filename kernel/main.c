@@ -32,10 +32,10 @@ void main() {
 	// int res = 5 / 0;
 
 	isr_install();
+	irq_install();
 	// __asm__ __volatile__("int $2");
 	// __asm__ __volatile__("int $4");
 
-	asm __volatile__("sti"); // set the interrupt flag, telling the CPU to check for interrupts
-	init_timer(1);
-	init_keyboard();
+	
+
 }

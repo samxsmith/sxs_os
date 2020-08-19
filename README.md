@@ -5,7 +5,7 @@ A dive-in-at-the-deep-end education in the nitty-gritty workings of an Operating
 
 All code is heavily commented to provide an educational commentary of exactly what is going on. Please dive in.
 
-### Features
+### Features
 - A custom-written but fairly standard boot loader
 - A screen driver for outputting to the screen
 - A port driver for communicating with various I/O chips: PIT, PIC, the screen etc

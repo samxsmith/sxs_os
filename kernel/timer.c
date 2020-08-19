@@ -1,8 +1,7 @@
 #include "timer.h"
 #include "../drivers/screen.h"
-#include "util.h"
 #include "interrupt_service_routines.h"
-#include "../drivers/ports.h"
+#include "ports.h"
 
 word tick = 0;
 word SPEED_OF_PIT_HZ = 1193182;

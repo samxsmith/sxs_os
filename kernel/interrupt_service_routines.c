@@ -1,8 +1,9 @@
 #include "interrupt_service_routines.h"
 #include "../drivers/screen.h"
 #include "interrupt_descriptor_table.h"
-#include "util.h"
-#include "../drivers/ports.h"
+#include "../lib/libc/string.h"
+#include "timer.h"
+#include "ports.h"
 
 ISR_Table interrupt_handlers[256];
 
@@ -183,4 +184,11 @@ void irq_handler(Register_Table rt) {
 	}
 	ISR_Table handler = interrupt_handlers[rt.interrupt_number];
 	handler(rt);
+}
+
+void irq_install() {
+	asm __volatile__("sti"); // set the interrupt flag, telling the CPU to check for interrupts
+
+	init_timer(1); // IRQ0
+	init_keyboard(); // IRQ1
 }

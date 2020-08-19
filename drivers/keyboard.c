@@ -1,8 +1,8 @@
 #include "keyboard.h"
-#include "ports.h"
+#include "../kernel/ports.h"
 #include "../kernel/interrupt_service_routines.h"
 #include "screen.h"
-#include "../kernel/util.h"
+#include "../lib/libc/string.h"
 
 char *get_keyboard_key(byte);
 
@@ -156,7 +156,7 @@ char *get_keyboard_key(byte scancode) {
 			// so if scancode is less than 0x39 + 0x80 = 0xB9
 			// then we know it's a keyup code
 			if (scancode <= 0xB9) {
-				screen_print("Key up");
+				screen_print("Key up: ");
 				return get_keyboard_key(scancode - 0x80);
 			}
 
