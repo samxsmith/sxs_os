@@ -14,6 +14,10 @@ void screen_print(char *message) {
 	screen_print_at(message, -1, -1, 0);
 }
 
+void screen_print_char(char c) {
+	print_char_at(c, -1, -1, 0);
+}
+
 void screen_print_at(char *message, int row, int col, char attributes) {
 	int offset;
 	int i = 0;

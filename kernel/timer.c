@@ -3,8 +3,8 @@
 #include "interrupt_service_routines.h"
 #include "ports.h"
 
+const word SPEED_OF_PIT_HZ = 1193182;
 word tick = 0;
-word SPEED_OF_PIT_HZ = 1193182;
 
 // static means visible to its object file only
 static void timer_callback(Register_Table rt) {
